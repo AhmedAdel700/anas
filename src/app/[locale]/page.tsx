@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Share2, Check, X, ArrowRight } from "lucide-react";
+import { Share2, Check, X, ArrowRight, ArrowLeft, Globe } from "lucide-react";
 import {
   Facebook,
   Instagram,
@@ -22,6 +22,8 @@ import image6 from "@/app/assets/Capture5.png";
 import image7 from "@/app/assets/Capture6.png";
 import image8 from "@/app/assets/Capture7.png";
 import image9 from "@/app/assets/Capture8.png";
+import logo from "@/app/assets/logo.png";
+import { useLocale, useTranslations } from "next-intl";
 
 const menuItems = [
   {
@@ -72,6 +74,7 @@ const menuItems = [
 ];
 
 const socialLinks = [
+  { icon: Phone, label: "Phone", href: "tel:+201288881943", color: "#25D366" },
   {
     icon: Facebook,
     label: "Facebook",
@@ -86,9 +89,9 @@ const socialLinks = [
   },
   {
     icon: Twitter,
-    label: "Twitter",
-    href: "https://twitter.com",
-    color: "#1DA1F2",
+    label: "X",
+    href: "https://x.com",
+    color: "#000000",
   },
   {
     icon: Linkedin,
@@ -102,7 +105,6 @@ const socialLinks = [
     href: "mailto:contact@anas.com",
     color: "#d4a574",
   },
-  { icon: Phone, label: "Phone", href: "tel:+201288881943", color: "#25D366" },
 ];
 
 export default function Home() {
@@ -111,6 +113,9 @@ export default function Home() {
   const [selectedImage, setSelectedImage] = useState<typeof image1 | null>(
     null
   );
+
+  const locale = useLocale();
+  const t = useTranslations("home");
 
   const handleShare = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -155,26 +160,26 @@ export default function Home() {
             className="flex justify-center mb-6"
           >
             <div className="text-center">
-              <h1 className="text-7xl md:text-8xl font-bold text-foreground">
-                Anas <span className="text-accent">Grill</span>
-              </h1>
-              <p className="text-muted-foreground text-lg mt-3 font-medium">
-                Premium Dining & Butchering
+              <div className="flex justify-center -mt-28">
+                <Image src={logo} alt="Anas Logo" width={1000} height={1000} />
+              </div>
+              <p className="text-muted-foreground text-lg -mt-28 font-medium">
+                {t("Premium Dining & But,chering")}
               </p>
               <p className="text-muted-foreground/80 text-sm mt-2 max-w-2xl mx-auto leading-relaxed">
-                Discover our exquisite menu featuring authentic grilled specialties, 
-                fresh ingredients, and traditional flavors that will transport you 
-                to culinary excellence.
+                {t(
+                  "Discover our exquisite menu featuring authentic grilled specialties, fresh ingredients, and traditional flavors that will transport you to culinary excellence"
+                )}
               </p>
             </div>
           </motion.div>
 
-          {/* Share Button - Moved after description */}
+          {/* Share and Language Buttons - Moved after description */}
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="flex justify-center mb-6"
+            className="flex justify-center gap-3 mb-6"
           >
             <motion.button
               onClick={handleShare}
@@ -187,15 +192,32 @@ export default function Home() {
                 <>
                   <Check size={18} className="text-accent" />
                   <span className="text-accent font-medium text-sm">
-                    Copied!
+                    {t("Copied")}!
                   </span>
                 </>
               ) : (
                 <>
                   <Share2 size={18} className="text-accent" />
-                  <span className="text-accent font-medium text-sm">Share</span>
+                  <span className="text-accent font-medium text-sm">
+                    {t("Share")}
+                  </span>
                 </>
               )}
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 px-4 py-2 rounded-lg bg-accent/10 hover:bg-accent/20 border border-accent/30 hover:border-accent/50 transition-all duration-300"
+              onClick={() => {
+                const newLocale = locale === "en" ? "ar" : "en";
+                window.location.href = `/${newLocale}`;
+              }}
+            >
+              <Globe size={18} className="text-accent" />
+              <span className="text-accent font-medium text-sm">
+                {locale === "en" ? "Arabic" : "الأنجليزية"}
+              </span>
             </motion.button>
           </motion.div>
 
@@ -254,7 +276,7 @@ export default function Home() {
                             d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"
                           />
                         </svg>
-                        Links
+                        {t("Links")}
                       </>
                     ) : (
                       <>
@@ -271,7 +293,7 @@ export default function Home() {
                             d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
                           />
                         </svg>
-                        Menu
+                        {t("Menu")}
                       </>
                     )}
                   </span>
@@ -377,7 +399,7 @@ export default function Home() {
 
                     {/* Label */}
                     <span className="relative font-semibold text-foreground group-hover:text-accent transition-colors duration-300 flex-1">
-                      {social.label}
+                      {t(social.label)}
                     </span>
 
                     {/* Animated arrow */}
@@ -389,7 +411,7 @@ export default function Home() {
                         repeat: Number.POSITIVE_INFINITY,
                       }}
                     >
-                      <ArrowRight />
+                      {locale === "en" ? <ArrowRight /> : <ArrowLeft />}
                     </motion.div>
                   </motion.a>
                 );
@@ -430,7 +452,10 @@ export default function Home() {
                   onClick={() => setSelectedImage(null)}
                   className="absolute cursor-pointer top-4 right-4 p-2 bg-black/50 hover:bg-black/70 text-white rounded-full transition-all duration-300 z-10 backdrop-blur-sm hover:scale-110 hover:rotate-90 group"
                 >
-                  <X size={24} className="group-hover:text-red-400 transition-colors duration-300" />
+                  <X
+                    size={24}
+                    className="group-hover:text-red-400 transition-colors duration-300"
+                  />
                 </button>
               </div>
             </motion.div>
