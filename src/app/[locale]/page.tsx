@@ -73,8 +73,34 @@ const menuItems = [
   },
 ];
 
+const branches = [
+  {
+    name: "Branch 1",
+    phones: [
+      { number: "+201288881943", label: "Phone 1" },
+      { number: "+201288881944", label: "Phone 2" },
+      { number: "+201288881945", label: "Phone 3" }
+    ]
+  },
+  {
+    name: "Branch 2", 
+    phones: [
+      { number: "+201288881946", label: "Phone 1" },
+      { number: "+201288881947", label: "Phone 2" },
+      { number: "+201288881948", label: "Phone 3" }
+    ]
+  },
+  {
+    name: "Branch 3",
+    phones: [
+      { number: "+201288881949", label: "Phone 1" },
+      { number: "+201288881950", label: "Phone 2" },
+      { number: "+201288881951", label: "Phone 3" }
+    ]
+  }
+];
+
 const socialLinks = [
-  { icon: Phone, label: "Phone", href: "tel:+201288881943", color: "#25D366" },
   {
     icon: Facebook,
     label: "Facebook",
@@ -86,18 +112,6 @@ const socialLinks = [
     label: "Instagram",
     href: "https://instagram.com",
     color: "#E4405F",
-  },
-  {
-    icon: Twitter,
-    label: "X",
-    href: "https://x.com",
-    color: "#000000",
-  },
-  {
-    icon: Linkedin,
-    label: "LinkedIn",
-    href: "https://linkedin.com",
-    color: "#0A66C2",
   },
   {
     icon: Mail,
@@ -356,9 +370,50 @@ export default function Home() {
               variants={containerVariants}
               initial="hidden"
               animate="visible"
-              className="flex flex-col gap-4"
+              className="flex flex-col gap-6"
             >
-              {socialLinks.map((social) => {
+              {/* Branch Phone Numbers - Grid Layout */}
+              <motion.div
+                variants={itemVariants}
+                className="grid grid-cols-1 md:grid-cols-3 gap-4"
+              >
+                {branches.map((branch, branchIndex) => (
+                  <motion.div
+                    key={branch.name}
+                    variants={itemVariants}
+                    className="bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] border border-accent/30 rounded-xl p-4 hover:border-accent/50 transition-all duration-300 group"
+                    whileHover={{ y: -2 }}
+                  >
+                    <div className="text-center mb-4">
+                      <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:from-accent/30 group-hover:to-accent/20 transition-all duration-300">
+                        <Phone size={24} className="text-accent" />
+                      </div>
+                      <h3 className="text-accent font-bold text-lg">
+                        {branch.name}
+                      </h3>
+                    </div>
+                    
+                    <div className="space-y-2">
+                      {branch.phones.map((phone, phoneIndex) => (
+                        <motion.a
+                          key={`${branchIndex}-${phoneIndex}`}
+                          href={`tel:${phone.number}`}
+                          whileHover={{ scale: 1.05 }}
+                          whileTap={{ scale: 0.95 }}
+                          className="block p-2 rounded-lg bg-gradient-to-r from-[#1a1a1a]/50 to-[#0f0f0f]/50 border border-accent/20 hover:border-accent/40 hover:bg-gradient-to-r hover:from-accent/10 hover:to-accent/5 transition-all duration-300 text-center"
+                        >
+                          <span className="text-foreground hover:text-accent transition-colors duration-300 text-sm font-medium">
+                            {phone.number}
+                          </span>
+                        </motion.a>
+                      ))}
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              {/* Social Media Links */}
+              {(locale === "ar" ? [...socialLinks].reverse() : socialLinks).map((social, index) => {
                 const Icon = social.icon;
                 return (
                   <motion.a
@@ -367,9 +422,11 @@ export default function Home() {
                     target="_blank"
                     rel="noopener noreferrer"
                     variants={itemVariants}
-                    whileHover={{ scale: 1.06, x: 12 }}
+                    whileHover={{ scale: 1.06, x: locale === "ar" ? -12 : 12 }}
                     whileTap={{ scale: 0.94 }}
-                    className="relative flex items-center gap-4 p-4 rounded-xl overflow-hidden group"
+                    className={`relative flex items-center gap-4 p-4 rounded-xl overflow-hidden group ${
+                      locale === "ar" ? "flex-row-reverse" : ""
+                    }`}
                   >
                     {/* Background gradient */}
                     <motion.div
@@ -398,20 +455,22 @@ export default function Home() {
                     </motion.div>
 
                     {/* Label */}
-                    <span className="relative font-semibold text-foreground group-hover:text-accent transition-colors duration-300 flex-1">
+                    <span className={`relative font-semibold text-foreground group-hover:text-accent transition-colors duration-300 flex-1 ${
+                      locale === "ar" ? "text-right" : "text-left"
+                    }`}>
                       {t(social.label)}
                     </span>
 
                     {/* Animated arrow */}
                     <motion.div
                       className="relative text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      animate={{ x: [0, 6, 0] }}
+                      animate={{ x: locale === "ar" ? [0, -6, 0] : [0, 6, 0] }}
                       transition={{
                         duration: 1.5,
                         repeat: Number.POSITIVE_INFINITY,
                       }}
                     >
-                      {locale === "en" ? <ArrowRight /> : <ArrowLeft />}
+                      {locale === "ar" ? <ArrowLeft /> : <ArrowRight />}
                     </motion.div>
                   </motion.a>
                 );
