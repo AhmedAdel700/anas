@@ -191,7 +191,13 @@ export default function Home() {
           >
             <div className="text-center">
               <div className="flex justify-center -mt-10 sm:-mt-16 xl:-mt-28">
-                <Image src={logo} alt="Anas Logo" width={1000} height={1000} />
+                <Image
+                  src={logo}
+                  alt="Anas Logo"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-full shrink-0"
+                />
               </div>
               <p className="text-muted-foreground text-lg -mt-10 sm:-mt-16 xl:-mt-28 font-medium">
                 {t("Premium Dining & But,chering")}
