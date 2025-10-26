@@ -15,6 +15,7 @@ import image6 from "@/app/assets/Capture5.png";
 import image7 from "@/app/assets/Capture6.png";
 import image8 from "@/app/assets/Capture7.png";
 import image9 from "@/app/assets/Capture8.png";
+import image10 from "@/app/assets/Capture9.png";
 import logo from "@/app/assets/logo.png";
 import { useLocale, useTranslations } from "next-intl";
 
@@ -83,6 +84,11 @@ const menuItems = [
     id: 9,
     title: "3",
     image: image9,
+  },
+  {
+    id: 10,
+    title: "4",
+    image: image10,
   },
 ];
 
