@@ -4,14 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Share2, Check, X, ArrowRight, ArrowLeft, Globe } from "lucide-react";
-import {
-  Facebook,
-  Instagram,
-  Linkedin,
-  Twitter,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { Facebook, Instagram, Phone } from "lucide-react";
 
 import image1 from "@/app/assets/Capture.png";
 import image2 from "@/app/assets/Capture1.png";
@@ -24,6 +17,26 @@ import image8 from "@/app/assets/Capture7.png";
 import image9 from "@/app/assets/Capture8.png";
 import logo from "@/app/assets/logo.png";
 import { useLocale, useTranslations } from "next-intl";
+
+// Custom TikTok Icon Component
+const TikTokIcon = ({
+  size = 24,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    className={className}
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+  </svg>
+);
 
 const menuItems = [
   {
@@ -73,51 +86,24 @@ const menuItems = [
   },
 ];
 
-const branches = [
-  {
-    name: "Branch 1",
-    phones: [
-      { number: "+201288881943", label: "Phone 1" },
-      { number: "+201288881944", label: "Phone 2" },
-      { number: "+201288881945", label: "Phone 3" }
-    ]
-  },
-  {
-    name: "Branch 2", 
-    phones: [
-      { number: "+201288881946", label: "Phone 1" },
-      { number: "+201288881947", label: "Phone 2" },
-      { number: "+201288881948", label: "Phone 3" }
-    ]
-  },
-  {
-    name: "Branch 3",
-    phones: [
-      { number: "+201288881949", label: "Phone 1" },
-      { number: "+201288881950", label: "Phone 2" },
-      { number: "+201288881951", label: "Phone 3" }
-    ]
-  }
-];
-
 const socialLinks = [
   {
     icon: Facebook,
     label: "Facebook",
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/Anasmeatsegy",
     color: "#1877F2",
   },
   {
     icon: Instagram,
     label: "Instagram",
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/anasmeatsegy/",
     color: "#E4405F",
   },
   {
-    icon: Mail,
-    label: "Email",
-    href: "mailto:contact@anas.com",
-    color: "#d4a574",
+    icon: TikTokIcon,
+    label: "Tiktok",
+    href: "https://www.tiktok.com/@anasmeatsegy",
+    color: "#000000",
   },
 ];
 
@@ -157,6 +143,36 @@ export default function Home() {
     },
   };
 
+  const branches = [
+    {
+      name: t("Mohandessin"),
+      phones: [
+        { number: "01100673867", label: "Phone 1" },
+        { number: "0102490044", label: "Phone 2" },
+        { number: "01208531896", label: "Phone 3" },
+      ],
+    },
+    {
+      name: `${t("October")} & ${t("El Sheikh Zayed")}`,
+      subBranches: [
+        {
+          name: t("October"),
+          phones: [
+            { number: "01288881943", label: "Phone 1" },
+            { number: "01223525560", label: "Phone 2" },
+          ],
+        },
+        {
+          name: t("El Sheikh Zayed"),
+          phones: [
+            { number: "01158665662", label: "Phone 1" },
+            { number: "01022665494", label: "Phone 2" },
+          ],
+        },
+      ],
+    },
+  ];
+
   return (
     <motion.main
       initial={{ opacity: 0 }}
@@ -174,10 +190,10 @@ export default function Home() {
             className="flex justify-center mb-6"
           >
             <div className="text-center">
-              <div className="flex justify-center -mt-28">
+              <div className="flex justify-center -mt-10 sm:-mt-16 xl:-mt-28">
                 <Image src={logo} alt="Anas Logo" width={1000} height={1000} />
               </div>
-              <p className="text-muted-foreground text-lg -mt-28 font-medium">
+              <p className="text-muted-foreground text-lg -mt-10 sm:-mt-16 xl:-mt-28 font-medium">
                 {t("Premium Dining & But,chering")}
               </p>
               <p className="text-muted-foreground/80 text-sm mt-2 max-w-2xl mx-auto leading-relaxed">
@@ -242,7 +258,7 @@ export default function Home() {
             transition={{ duration: 0.5, delay: 0.3 }}
             className="w-full"
           >
-            <div className="flex gap-2 w-full">
+            <div className="flex gap-3 w-full">
               {["links", "menu"].map((tab) => (
                 <motion.button
                   key={tab}
@@ -375,16 +391,16 @@ export default function Home() {
               {/* Branch Phone Numbers - Grid Layout */}
               <motion.div
                 variants={itemVariants}
-                className="grid grid-cols-1 md:grid-cols-3 gap-4"
+                className="grid grid-cols-1 lg:grid-cols-2 gap-6"
               >
                 {branches.map((branch, branchIndex) => (
                   <motion.div
                     key={branch.name}
                     variants={itemVariants}
-                    className="bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] border border-accent/30 rounded-xl p-4 hover:border-accent/50 transition-all duration-300 group"
+                    className="bg-gradient-to-br from-[#2a2a2a] to-[#1a1a1a] border border-accent/30 rounded-xl p-6 hover:border-accent/50 transition-all duration-300 group"
                     whileHover={{ y: -2 }}
                   >
-                    <div className="text-center mb-4">
+                    <div className="text-center mb-6">
                       <div className="w-12 h-12 mx-auto mb-2 rounded-full bg-gradient-to-br from-accent/20 to-accent/10 flex items-center justify-center group-hover:from-accent/30 group-hover:to-accent/20 transition-all duration-300">
                         <Phone size={24} className="text-accent" />
                       </div>
@@ -392,89 +408,125 @@ export default function Home() {
                         {branch.name}
                       </h3>
                     </div>
-                    
-                    <div className="space-y-2">
-                      {branch.phones.map((phone, phoneIndex) => (
-                        <motion.a
-                          key={`${branchIndex}-${phoneIndex}`}
-                          href={`tel:${phone.number}`}
-                          whileHover={{ scale: 1.05 }}
-                          whileTap={{ scale: 0.95 }}
-                          className="block p-2 rounded-lg bg-gradient-to-r from-[#1a1a1a]/50 to-[#0f0f0f]/50 border border-accent/20 hover:border-accent/40 hover:bg-gradient-to-r hover:from-accent/10 hover:to-accent/5 transition-all duration-300 text-center"
-                        >
-                          <span className="text-foreground hover:text-accent transition-colors duration-300 text-sm font-medium">
-                            {phone.number}
-                          </span>
-                        </motion.a>
-                      ))}
-                    </div>
+
+                    {branch.phones ? (
+                      // Single branch with phones - 2 per row, odd one takes full width
+                      <div className="grid gap-3 grid-cols-2">
+                        {branch.phones.map((phone, phoneIndex) => (
+                          <motion.a
+                            key={`${branchIndex}-${phoneIndex}`}
+                            href={`tel:${phone.number}`}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className={`block p-3 rounded-lg bg-gradient-to-r from-[#1a1a1a]/50 to-[#0f0f0f]/50 border border-accent/20 hover:border-accent/40 hover:bg-gradient-to-r hover:from-accent/10 hover:to-accent/5 transition-all duration-300 text-center ${
+                              phoneIndex === branch.phones.length - 1 &&
+                              branch.phones.length % 2 === 1
+                                ? "col-span-2"
+                                : ""
+                            }`}
+                          >
+                            <span className="text-foreground hover:text-accent transition-colors duration-300 text-sm font-medium">
+                              {phone.number}
+                            </span>
+                          </motion.a>
+                        ))}
+                      </div>
+                    ) : (
+                      // Combined branch with sub-branches - 2x2 grid layout
+                      <div className="grid grid-cols-2 gap-3">
+                        {branch.subBranches.flatMap((subBranch, subIndex) =>
+                          subBranch.phones.map((phone, phoneIndex) => (
+                            <motion.a
+                              key={`${branchIndex}-${subIndex}-${phoneIndex}`}
+                              href={`tel:${phone.number}`}
+                              whileHover={{ scale: 1.05 }}
+                              whileTap={{ scale: 0.95 }}
+                              className="block p-3 rounded-lg bg-gradient-to-r from-[#1a1a1a]/50 to-[#0f0f0f]/50 border border-accent/20 hover:border-accent/40 hover:bg-gradient-to-r hover:from-accent/10 hover:to-accent/5 transition-all duration-300 text-center"
+                            >
+                              <span className="text-foreground hover:text-accent transition-colors duration-300 text-sm font-medium">
+                                {phone.number}
+                              </span>
+                            </motion.a>
+                          ))
+                        )}
+                      </div>
+                    )}
                   </motion.div>
                 ))}
               </motion.div>
 
               {/* Social Media Links */}
-              {(locale === "ar" ? [...socialLinks].reverse() : socialLinks).map((social, index) => {
-                const Icon = social.icon;
-                return (
-                  <motion.a
-                    key={social.label}
-                    href={social.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    variants={itemVariants}
-                    whileHover={{ scale: 1.06, x: locale === "ar" ? -12 : 12 }}
-                    whileTap={{ scale: 0.94 }}
-                    className={`relative flex items-center gap-4 p-4 rounded-xl overflow-hidden group ${
-                      locale === "ar" ? "flex-row-reverse" : ""
-                    }`}
-                  >
-                    {/* Background gradient */}
-                    <motion.div
-                      className="absolute inset-0 bg-gradient-to-r from-[#2a2a2a] to-[#1a1a1a] border-2 border-accent/30 rounded-xl"
+              {(locale === "ar" ? [...socialLinks].reverse() : socialLinks).map(
+                (social) => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.label}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      variants={itemVariants}
                       whileHover={{
-                        borderColor: "rgba(212, 165, 116, 0.8)",
-                        backgroundColor: "rgba(212, 165, 116, 0.08)",
+                        scale: 1.06,
+                        x: locale === "ar" ? -12 : 12,
                       }}
-                      transition={{ duration: 0.3 }}
-                    />
-
-                    {/* Icon container with glow */}
-                    <motion.div
-                      className="relative p-3 rounded-lg bg-gradient-to-br from-accent/30 to-accent/10 group-hover:from-accent group-hover:to-accent/80 transition-all duration-300 shadow-lg"
-                      style={{
-                        boxShadow: `0 0 20px ${social.color}33`,
-                      }}
-                      whileHover={{
-                        boxShadow: `0 0 30px ${social.color}66`,
-                      }}
+                      whileTap={{ scale: 0.94 }}
+                      className={`relative flex items-center gap-4 p-4 rounded-xl overflow-hidden group ${
+                        locale === "ar" ? "flex-row-reverse" : ""
+                      }`}
                     >
-                      <Icon
-                        size={24}
-                        className="text-accent group-hover:text-background transition-colors duration-300"
+                      {/* Background gradient */}
+                      <motion.div
+                        className="absolute inset-0 bg-gradient-to-r from-[#2a2a2a] to-[#1a1a1a] border-2 border-accent/30 rounded-xl"
+                        whileHover={{
+                          borderColor: "rgba(212, 165, 116, 0.8)",
+                          backgroundColor: "rgba(212, 165, 116, 0.08)",
+                        }}
+                        transition={{ duration: 0.3 }}
                       />
-                    </motion.div>
 
-                    {/* Label */}
-                    <span className={`relative font-semibold text-foreground group-hover:text-accent transition-colors duration-300 flex-1 ${
-                      locale === "ar" ? "text-right" : "text-left"
-                    }`}>
-                      {t(social.label)}
-                    </span>
+                      {/* Icon container with glow */}
+                      <motion.div
+                        className="relative p-3 rounded-lg bg-gradient-to-br from-accent/30 to-accent/10 group-hover:from-accent group-hover:to-accent/80 transition-all duration-300 shadow-lg"
+                        style={{
+                          boxShadow: `0 0 20px ${social.color}33`,
+                        }}
+                        whileHover={{
+                          boxShadow: `0 0 30px ${social.color}66`,
+                        }}
+                      >
+                        <Icon
+                          size={24}
+                          className="text-accent group-hover:text-background transition-colors duration-300"
+                        />
+                      </motion.div>
 
-                    {/* Animated arrow */}
-                    <motion.div
-                      className="relative text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      animate={{ x: locale === "ar" ? [0, -6, 0] : [0, 6, 0] }}
-                      transition={{
-                        duration: 1.5,
-                        repeat: Number.POSITIVE_INFINITY,
-                      }}
-                    >
-                      {locale === "ar" ? <ArrowLeft /> : <ArrowRight />}
-                    </motion.div>
-                  </motion.a>
-                );
-              })}
+                      {/* Label */}
+                      <span
+                        className={`relative font-semibold text-foreground group-hover:text-accent transition-colors duration-300 flex-1 ${
+                          locale === "ar" ? "text-right" : "text-left"
+                        }`}
+                      >
+                        {t(social.label)}
+                      </span>
+
+                      {/* Animated arrow */}
+                      <motion.div
+                        className="relative text-accent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                        animate={{
+                          x: locale === "ar" ? [0, -6, 0] : [0, 6, 0],
+                        }}
+                        transition={{
+                          duration: 1.5,
+                          repeat: Number.POSITIVE_INFINITY,
+                        }}
+                      >
+                        {locale === "ar" ? <ArrowLeft /> : <ArrowRight />}
+                      </motion.div>
+                    </motion.a>
+                  );
+                }
+              )}
             </motion.div>
           </div>
         </motion.section>
